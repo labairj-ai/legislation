@@ -104,7 +104,11 @@ export function getBills({ chamber, stage, sector, min_score, max_score, search,
   if (stage   && stage   !== 'all') { conds.push('stage=?');   params.push(stage); }
   if (min_score != null) { conds.push('passage_score >= ?'); params.push(+min_score); }
   if (max_score != null) { conds.push('passage_score <= ?'); params.push(+max_score); }
-  if (search)  { conds.push('(title LIKE ? OR ai_summary LIKE ?)'); params.push(`%${search}%`, `%${search}%`); }
+  if (search)  {
+    conds.push("(title LIKE ? OR bill_number LIKE ? OR (bill_type||' '||bill_number) LIKE ? OR ai_summary LIKE ? OR crs_summary LIKE ? OR sponsor_name LIKE ?)");
+    const s = `%${search}%`;
+    params.push(s, s, s, s, s, s);
+  }
   if (sector && sector !== 'all') { conds.push('ai_sectors LIKE ?'); params.push(`%"${sector}"%`); }
 
   const where = conds.length ? `WHERE ${conds.join(' AND ')}` : '';

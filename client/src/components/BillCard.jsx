@@ -21,6 +21,8 @@ const STAGE_LABELS = {
 
 const PARTY_COLOR = { R: '#ef4444', D: '#4493f8', I: '#a855f7' };
 
+const truncate = (str, max) => str && str.length > max ? str.slice(0, max).replace(/\s\S*$/, '') + '…' : str;
+
 export default function BillCard({ bill, onClick }) {
   const stage = STAGE_COLORS[bill.stage] || STAGE_COLORS.introduced;
   const sectors = Array.isArray(bill.ai_sectors) ? bill.ai_sectors : [];
@@ -64,10 +66,10 @@ export default function BillCard({ bill, onClick }) {
         </div>
       </div>
 
-      {/* AI summary */}
-      {bill.ai_summary && (
+      {/* Summary — AI when enriched, CRS fallback otherwise */}
+      {(bill.ai_summary || bill.crs_summary) && (
         <p style={{ fontSize: 13, color: 'var(--muted)', lineHeight: 1.5, margin: 0 }}>
-          {bill.ai_summary}
+          {truncate(bill.ai_summary || bill.crs_summary, 220)}
         </p>
       )}
 
