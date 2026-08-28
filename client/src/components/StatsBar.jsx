@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function StatsBar({ stats, syncing, onSync }) {
   if (!stats) return null;
-  const lastSync = stats.lastSync ? new Date(stats.lastSync).toLocaleString() : 'Never';
+  const lastSync = stats.lastSync?.completed_at ? new Date(stats.lastSync.completed_at).toLocaleString() : 'Never';
 
   return (
     <div style={{ background: 'var(--surface)', borderBottom: '1px solid var(--border)', padding: '10px 20px', display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
