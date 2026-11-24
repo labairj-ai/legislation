@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 import cron from 'node-cron';
 import billsRouter from './routes/bills.js';
+import chatRouter from './routes/chat.js';
 import syncRouter  from './routes/sync.js';
 import { runSync } from './sync.js';
 
@@ -25,6 +26,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/api', billsRouter);
+app.use('/api', chatRouter);
 app.use('/api', syncRouter);
 
 app.use(express.static(CLIENT_DIST));
